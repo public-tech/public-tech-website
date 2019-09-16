@@ -6,15 +6,6 @@
   "static": {
     "dir": "./output"
   },
-  "actions": [
-    {
-      "name": "slack.backend",
-      "type": "slack",
-      "url": "https://hooks.slack.com/services/",
-      "channel": "ci",
-      "gifs": true
-    }
-  ],
   "stages": {
     "staging": {
       "domain": "stage-website.public-tech.co"
