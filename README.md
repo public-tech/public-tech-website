@@ -1,6 +1,4 @@
-# Template Website [![CircleCI](https://circleci.com/gh/public-tech/public-website.svg?style=svg)](https://circleci.com/gh/public-tech/public-website)
-
-This repo contains your public website.
+# PUBLIC tech website [![Netlify Status](https://api.netlify.com/api/v1/badges/23a59549-bcaa-49b3-b9d2-6307263f322d/deploy-status)](https://app.netlify.com/sites/public-tech/deploys)
 
 As well as the website code, you have a fully working Continuous Integration (CI) pipeline (we use CircleCI).
 
