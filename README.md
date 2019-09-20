@@ -12,47 +12,6 @@ You need to [install](https://brew.sh/) `homebrew` on your Mac.
 
 You need to have `git` installed (`brew install git`).
 
-You need an AWS account (free tier should be fine for normal loads).
-
-You need a CircleCI account and you need to have linked it to your GitHub Account.
-
-### The AWS Certificate Shuffle
-
-You need the ability in AWS to create ACM certs in the `us-east-1 (US Virginia)` region. If you created an AWS root account where the default region is not `us-east-1` then you need to contact Customer Services and request the ability to create certs in a non-default region (which MUST be `us-east-1` becasue CloudFront always looks for certs in this region).
-Once you have the ability to create a cert in `us-east-1` you can check what certs have been created with:
-
-```shell
-aws acm list-certificates --certificate-statuses "ISSUED" --region us-east-1
-```
-
-A good workflow to test custom domains, is to:
-
-- make sure you can create a cert in `us-east-1` via the AWS console to confirm the above.
-
-- list the certs using `aws acm list-certificates --certificate-statuses "ISSUED" --region us-east-1`
-
-- run `up stack plan`. If you recieve the follwing error:
-
-```
-An error of `LimitExceededException: Cannot request more certificates in this account. Contact Customer Service for details
-```
-
-then this can mean that you cannot create ACM certs in the `us-east-1` region.
-
-- once `up stack plan` works without errors, run `up stack apply`
-
-- if you can create a cert but it is not marked as `ISSUED` after an hour or so, make sure you have accepted the domain verification emails from AWS.
-
-- certs marked as `PENDING_VALIDATION` will give the following error when you run `up stack apply`:
-
-```shell
-ApiDomainStaging: Unable to associate certificate arn:aws:acm:us-east-1:<cert id>:certificate/<cert hash> with CloudFront. This error may prevent the domain name stage-website.panopticon.tech from being used in API Gateway for up to 40 minutes. Please ensure the certificate domain name matches the requested domain name, and that this user has permission to call cloudfront:UpdateDistribution on '*' resources.
-     DnsZone<yourdomain>: Resource creation cancelled
-     ApiDomainProduction: Unable to associate certificate arn:aws:acm:us-east-1:<cert id>:certificate/<cert hash> with CloudFront. This error may prevent the domain name panopticon.tech from being used in API Gateway for up to 40 minutes. Please ensure the certificate domain name matches the requested domain name, and that this user has permission to call cloudfront:UpdateDistribution on '*' resources.
-```
-
-- once `up stack plan` runs without errors, then run `up stack apply` and you should be all set.
-
 ## Getting started
 
 ### Dependencies used by this repo
@@ -61,11 +20,7 @@ We use `hugo` to template the website.
 
 We have our own hugo theme which you need to install (see below).
 
-We use `up` to deploy the static site to AWS infrastructure. `up` takes the static site and auto configures/deploys to an AWS account (using API gateway -> lambda -> S3).
-
-You will need to have a valid `~~/.aws/credentials` file that contains your AWS secrets, in order for `up` to work. We create this file for your on CircleCI (from your AWS credentials stored as env vars).
-
-You should *NEVER* use the root AWS account. Create a 'machine user' account for the website and use this AWS user's credentials. A list of the AWS permissions needed for the machine user can be found [here](https://up.docs.apex.sh/#aws_credentials.iam_policy_for_up_cli).
+We use netlify to build and host the site.
 
 ### Steps to run locally
 
@@ -91,7 +46,7 @@ find . -name "*.sh" -maxdepth 1 -exec chmod +x {} \;
 
 #### Install dependencies on OSX (available as `osx_install.sh`)
 
-In a terminal, run: 
+In a terminal, run:
 
 ```shell
 ./osx_install.sh
@@ -145,37 +100,11 @@ When you have made the changes you want, you can then commit the changes using `
 
 The CI pipeline is already configured:
 
-- If you push changes to a `stage` branch, then your changes (if successful) will be automatically deployed to your `stage` environment.
+- If you push changes to a `staging` branch, then your changes (if successful) will be automatically deployed to your `staging` environment. This is found [here](https://staging--public-tech.netlify.com).
 
-- If you push a git tag that begins with `v.`, e.g. `v.0.1.3` the your changes (if successful) will be automatically pushed to your `production` environment.
+- If you push changes to the `master` branch, then your changes (if successful) will be automatically pushed to your `production` environment.  This is found [here](https://public-tech.co).
 
 - In all other cases, your changes will be built and tested, but not deployed.
-
-### Steps to getting CI working
-
-- Sign up for [CircleCI](https://circleci.com).
-
-- Ensure you have all the mandatory env vars set (see below)
-
-- Ensure you have allowed CircleCI to access this repo.
-
-- Ensure you have created a Slack channel called `ci` and created a Slack webhook for it.
-
-## Env vars
-
-#### Needed for CI (all mandatory) - configure these on the CircleCI website.
-
-- `AWS_ACCESS_KEY_ID` - your AWS access key
-
-- `AWS_SECRET_ACCESS_KEY` - your AWS secret key
-
-- `THEME_VERSION` - the version of the website theme to download
-
-## Explanation of the directories and files.
-
-### .circleci
-
-This directory contains your CircleCI config file.
 
 ### website
 
@@ -203,7 +132,3 @@ To run the script, go to a terminal, navigate to this folder and then run:
 ### test.sh
 
 This file contains a simple smoke test to make sure your deployment works. You can run this locally, but it is also run on CI.
-
-### up.json
-
-This file contains your `up` config. This file is used to deploy your website to your AWS infrastructure.
