@@ -7,7 +7,7 @@ theme = "fylo"
 [params]
   
   # you can add multiple custom css file paths
-  custom_css = []
+  custom_css = ["css/site.css"]
 
   # Meta
   author = "PUBLIC Group International Ltd"
@@ -21,11 +21,12 @@ theme = "fylo"
   [params.navigation]
     brand = 'PUBLIC'
     home = "Home"
-    work = "Work"
-    testimonials = "Testimonials"
     services = "Products"
     about = "About"
     contact = "Contact"
+    login = "Login / Signup"
+    work = "Work"
+    testimonials = "Testimonials"
 
     # You can add custom links before or after the default links
     # Assign a weight to define the order
@@ -46,7 +47,12 @@ theme = "fylo"
   [params.hero]
     title = 'Public Tech'
     subtitle = 'Technology to help the public sector'
- 
+
+  [params.login]
+    enable = true
+    link = "https://app.public-tech.co/"
+
+
   # Intro section
   # Available icons: http://simplelineicons.com/
   [params.intro]
@@ -138,20 +144,20 @@ theme = "fylo"
   [params.services]
     enable = true
     title = "Products"
-    description = "PUBLIC Tech have a range of products that help you create amazing things - faster and more securely."
+    description = "We have a range of products that help you create amazing things - faster and more securely."
 
     [[params.services.item]]
-      title = "HealthKIt"
+      title = "Health Kit"
       description = "Clinical coding of records and looking up medicines should be as simple as calling an API."
       icon = "icon-heart2"
     [[params.services.item]]
-      title = "Second product"
-      description = "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean"
+      title = "Identity Kit"
+      description = "Assured trusted identity using state of the art biometrics should be as simple as calling an API."
       icon = "icon-layers2"
 
   # About section
   [params.about]
-    enable = true
+    enable = false
     title = "About"
     description = 'Who is behind product?'
 
@@ -243,8 +249,8 @@ theme = "fylo"
   # Footer section
   [params.footer]
     enable = true
-    copyright = '&copy; 2019 Public Tech. All Rights Reserved.'
+    copyright = '&copy; 2019 PUBLIC Technologies Ltd. All Rights Reserved.'
     links = [
-        ["icon-twitter", "#twitter"],
-        ["icon-linkedin", "#linkedin"]
+        ["icon-twitter", "https://twitter.com/PUBLIC_Team"],
+        ["icon-linkedin", "https://www.linkedin.com/company/public.io"]
       ]

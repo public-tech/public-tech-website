@@ -452,6 +452,8 @@
 
 		// Animations
 		homeAnimate();
+		workAnimate();
+		servicesAnimate();
 		/*introAnimate();
 		workAnimate();
 		testimonialAnimate();
