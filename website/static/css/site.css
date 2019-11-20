@@ -17,3 +17,7 @@
   background-image: repeating-linear-gradient(to bottom right, #3f95ea 0%, #52d3aa 100%);
   background-image: -ms-repeating-linear-gradient(top left, #3f95ea 0%, #52d3aa 100%);
 }
+
+#fh5co-header.navbar-fixed-top a.navbar-brand {
+  color: #3f95ea;
+}
